@@ -3,7 +3,10 @@ import javascriptLogo from './javascript.svg'
 import { setupCounter } from './counter.js'
 
 import * as THREE from 'https://unpkg.com/three@0.146.0/build/three.module.js';
+import { OrbitControls } from 'https://unpkg.com/three@0.126.1/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui';
+
+console.log(OrbitControls)
 
 const gui = new dat.GUI()
 
@@ -15,6 +18,7 @@ const world = {
         heightSegments: 10
     }
 }
+
 
 gui.add(world.plane,'width', 1, 20).onChange(generatePlane)
 
@@ -59,6 +63,10 @@ document.body.appendChild(renderer.domElement)
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1)
 
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+
+
+new OrbitControls(camera, renderer.domElement)
+
 /*
 console.log(boxGeometry)
 console.log(material)
@@ -92,14 +100,18 @@ const planeMesh =  new THREE.Mesh(planeGeometry, planeMaterial)
 scene.add(planeMesh)
 
 console.log(planeMesh)
+
 const light = new THREE.DirectionalLight(0xffffff, 1)
-
 light.position.set(0, 0, 1)
-
-
-
-
 scene.add(light)
+
+
+const backLight = new THREE.DirectionalLight(0xffffff, 1)
+backLight.position.set(0, 0, -1)
+scene.add(backLight)
+
+
+
 function animate (){
     requestAnimationFrame(animate)
     renderer.render(scene, camera)
